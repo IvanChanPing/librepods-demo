@@ -9,6 +9,7 @@
 ## 2026-08-12 — Bluetooth-free screen demo
 
 - Added a separately installable `me.kavishdevar.librepods.demo` flavor named LibrePods Demo.
+- Limited the Demo APK to ARM64 native libraries and added a CI ABI assertion.
 - Added a first-screen catalog that opens every production screen with deterministic AirPods, battery, control, proximity, microphone, Find My, heart-rate, workout, and Health Connect fixture data.
 - Kept demo interactions inside fixture state instead of starting the AirPods service, Xposed/native Bluetooth hook, AACP, ATT, head-tracking, microphone, Health Connect, or billing operations.
 - Removed Bluetooth permissions, connected-device foreground service, boot startup, widgets, Quick Settings tile, phone/location/health permissions, and billing permission from the Demo manifest.

@@ -100,6 +100,9 @@ android {
             // Screen-test build: separately installed, fixture-backed, and radio-free at runtime.
             applicationIdSuffix = ".demo"
             versionNameSuffix = "-demo"
+            ndk {
+                abiFilters += listOf("arm64-v8a")
+            }
             buildConfigField("Boolean", "PLAY_BUILD", "false")
             buildConfigField("Boolean", "DEMO_MODE", "true")
         }
