@@ -1,5 +1,7 @@
 # Changelog
 
+- Included the Gradle wrapper runtime required by GitHub Actions.
+
 ## 2026-08-12 — Bluetooth-free screen demo
 
 - Added a separately installable `me.kavishdevar.librepods.demo` flavor named LibrePods Demo.

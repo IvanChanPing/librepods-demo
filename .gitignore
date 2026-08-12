@@ -208,6 +208,7 @@ fabric.properties
 
 # Package Files #
 *.jar
+!android/gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar
 *.ear
