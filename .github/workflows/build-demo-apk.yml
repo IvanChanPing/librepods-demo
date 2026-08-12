@@ -1,0 +1,60 @@
+name: Bluetooth-free demo APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - android/**
+      - .github/workflows/build-demo-apk.yml
+
+permissions:
+  contents: read
+
+jobs:
+  build-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: android-actions/setup-android@v3
+      - name: Install Android build packages
+        run: sdkmanager "platforms;android-37.0" "build-tools;36.0.0" "ndk;30.0.14904198"
+      - name: Test and assemble Demo APK
+        working-directory: android
+        run: ./gradlew --stacktrace testDemoDebugUnitTest assembleDemoDebug
+      - name: Verify separate package and Bluetooth-free manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_apk="android/app/build/outputs/apk/demo/debug/app-demo-debug.apk"
+          test -s "$source_apk"
+          aapt2="$ANDROID_HOME/build-tools/36.0.0/aapt2"
+          badging="$($aapt2 dump badging "$source_apk")"
+          permissions="$($aapt2 dump permissions "$source_apk")"
+          manifest="$($aapt2 dump xmltree --file AndroidManifest.xml "$source_apk")"
+          grep -Fq "package: name='me.kavishdevar.librepods.demo'" <<<"$badging"
+          ! grep -Fq "android.permission.BLUETOOTH" <<<"$permissions"
+          ! grep -Fq "me.kavishdevar.librepods.services.AirPodsService" <<<"$manifest"
+          ! grep -Fq "me.kavishdevar.librepods.services.AirPodsQSService" <<<"$manifest"
+          ! grep -Fq "me.kavishdevar.librepods.receivers.BootReceiver" <<<"$manifest"
+          ! grep -Fq "me.kavishdevar.librepods.presentation.widgets.BatteryWidget" <<<"$manifest"
+          ! grep -Fq "me.kavishdevar.librepods.presentation.widgets.NoiseControlWidget" <<<"$manifest"
+          install -m 0644 "$source_apk" librepods-demo-debug.apk
+          sha256sum librepods-demo-debug.apk > librepods-demo-debug.apk.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: librepods-bluetooth-free-demo-${{ github.sha }}
+          path: |
+            librepods-demo-debug.apk
+            librepods-demo-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 14
