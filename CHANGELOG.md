@@ -4,6 +4,8 @@
 
 - Resolved the Demo manifest backup-policy override during GitHub builds.
 
+- Removed a duplicate BuildConfig import from App Settings.
+
 ## 2026-08-12 — Bluetooth-free screen demo
 
 - Added a separately installable `me.kavishdevar.librepods.demo` flavor named LibrePods Demo.

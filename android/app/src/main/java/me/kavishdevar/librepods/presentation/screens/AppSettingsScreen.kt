@@ -98,7 +98,6 @@ import me.kavishdevar.librepods.presentation.viewmodel.AppSettingsViewModel
 import me.kavishdevar.librepods.utils.FeatureDiagnostics
 import me.kavishdevar.librepods.utils.XposedState
 import java.util.concurrent.TimeUnit
-import me.kavishdevar.librepods.BuildConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
