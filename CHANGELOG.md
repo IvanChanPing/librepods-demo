@@ -2,6 +2,8 @@
 
 - Included the Gradle wrapper runtime required by GitHub Actions.
 
+- Resolved the Demo manifest backup-policy override during GitHub builds.
+
 ## 2026-08-12 — Bluetooth-free screen demo
 
 - Added a separately installable `me.kavishdevar.librepods.demo` flavor named LibrePods Demo.
